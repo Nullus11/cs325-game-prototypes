@@ -50,12 +50,8 @@ function create ()
 }
 function update ()
 {
-    var distx12 = blocks1.x-blocks2.x;
-    var disty12 = blocks1.y-blocks2.y;
-    var distx21 = blocks2.x-blocks1.x;
-    var disty21 = blocks2.y-blocks1.y;
 
-    if(distx12 > -5 && disty12 > -5 && distx21 < 5 && disty21 < 5 )
+    if(Math.abs(blocks1.x-blocks2.x) < 5 && Math.abs(blocks1.y-blocks2.y) < 5)
     {
         blocks1.setActive(false).setVisible(false);
         blocks2.setActive(false).setVisible(false);
@@ -73,12 +69,8 @@ function update ()
        
         }, this);
     }
-    var distx23 = blocks2.x-blocks3.x;
-    var disty23 = blocks2.y-blocks3.y;
-    var distx32 = blocks3.x-blocks2.x;
-    var disty32 = blocks3.y-blocks2.y;
 
-    if(distx23 > -5 && disty23  > -5 && distx32 < 5 && disty32 < 5 )
+    if(Math.abs(blocks2.x-blocks3.x) < 5 && Math.abs(blocks2.y-blocks3.y) < 5)
     {
         blocks2.setActive(false).setVisible(false);
         blocks3.setActive(false).setVisible(false);
@@ -98,12 +90,7 @@ function update ()
         }, this);
     }
 
-    var distx34 = blocks3.x-blocks4.x;
-    var disty34 = blocks3.y-blocks4.y;
-    var distx43 = blocks4.x-blocks3.x;
-    var disty43 = blocks4.y-blocks3.y;
-
-    if(distx34 > -5 && disty34 >- 5 && distx43 < 5 && disty43 < 5 )
+    if(Math.abs(blocks3.x-blocks4.x) < 5 && Math.abs(blocks3.y-blocks4.y) < 5)
     {
         blocks3.setActive(false).setVisible(false);
         blocks4.setActive(false).setVisible(false);
@@ -123,12 +110,7 @@ function update ()
         }, this);
     }
 
-    var distx14 = blocks1.x-blocks4.x;
-    var disty14 = blocks1.y-blocks4.y;
-    var distx41 = blocks4.x-blocks1.x;
-    var disty41 = blocks4.y-blocks1.y;
-
-    if(distx14 > -5 && disty14 > -5 && distx41 < 5 && disty41 < 5 )
+    if(Math.abs(blocks1.x-blocks4.x) < 5 && Math.abs(blocks1.y-blocks4.y) < 5)
     {
         blocks1.setActive(false).setVisible(false);
         blocks4.setActive(false).setVisible(false);
