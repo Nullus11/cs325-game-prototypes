@@ -195,7 +195,7 @@ function update ()
         gameOver.setVisible(true);
         obama.play({volume:1,loop:false});
     }
-    if(Math.abs(cursor.x - point.x)  < 10 && Math.abs(cursor.y - point.y) <10)
+    if(Math.abs(cursor.x - point.x)  < 15 && Math.abs(cursor.y - point.y) <15)
     {
         
         point.destroy();
