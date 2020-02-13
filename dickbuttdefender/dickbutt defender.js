@@ -1,6 +1,6 @@
 var config = {
     type: Phaser.AUTO,
-    parent: 'phaser-example',
+    parent: 'game',
     width: 1200,
     height: 1600,
     physics: {
@@ -75,6 +75,23 @@ var Bullet = new Phaser.Class({
 
         this.rotation = shooter.rotation; // angle bullet with shooters rotation
         this.born = 0; // Time since new bullet spawned
+        var otf = Phaser.Math.Between(1,4);
+        if(otf === 1)
+        {
+            fart1.play({volume:.2,loop: false});
+        }
+        if(otf === 2)
+        {
+            fart2.play({volume:.2,loop: false});
+        }
+        if(otf === 3)
+        {
+            fart3.play({volume:.2,loop: false});
+        }
+        if(otf === 4)
+        {
+            fart4.play({volume:.2,loop: false});
+        }
     },
 
     // Updates the position of the bullet each cycle
@@ -106,6 +123,10 @@ function preload ()
     this.load.image('sky', 'assets/sky.png'); //https://image.shutterstock.com/image-vector/mountain-forest-meadow-landscape-260nw-691272007.jpg
     this.load.image('potato', 'assets/potato.png'); //https://www.google.com/search?q=rape+potato&tbm=isch&ved=2ahUKEwi61eDHucznAhUBNd8KHdpZCm4Q2-cCegQIABAA&oq=rape+potato&gs_l=img.3...4401.4540..4803...0.0..0.149.149.0j1......0....1..gws-wiz-img.Ck0x62roI1U&ei=8ClEXrqdN4Hq_Abas6nwBg&bih=746&biw=682#imgrc=9hI8cSBBiB9jPM
     this.load.audio('music','assets/dickbutt.mp3'); //https://www.youtube.com/watch?v=AmYrTp-JdnY
+    this.load.audio('fart1', 'assets/fart1.mp3');//https://www.soundjay.com/fart-sound-effect.html
+    this.load.audio('fart2', 'assets/fart2.mp3');//https://www.soundjay.com/fart-sound-effect.html
+    this.load.audio('fart3', 'assets/fart3.mp3');//https://www.soundjay.com/fart-sound-effect.html
+    this.load.audio('fart4', 'assets/fart4.mp3');//https://www.soundjay.com/fart-sound-effect.html
 }
 
 function create ()
@@ -121,6 +142,10 @@ function create ()
   
     // Add background player, enemy, reticle, healthpoint sprites
     music = this.sound.add('music');
+    fart1 = this.sound.add('fart1');
+    fart2 = this.sound.add('fart2');
+    fart3 = this.sound.add('fart3');
+    fart4 = this.sound.add('fart4');
     background = this.add.image(600, 800, 'sky');
     player = this.physics.add.sprite(600, 1500, 'dickbutt');
     enemy = this.physics.add.sprite(valuex, 0, 'potato');
