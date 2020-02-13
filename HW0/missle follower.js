@@ -45,8 +45,18 @@ function create ()
     blocks2 = this.physics.add.image(0,800,'block').setScale(.07);
     blocks3 = this.physics.add.image(600,0,'block').setScale(.07);
     blocks4 = this.physics.add.image(600,800,'block').setScale(.07);
+    blocks1.body.debugShowBody = false;
+    blocks2.body.debugShowBody = false;
+    blocks3.body.debugShowBody = false;
+    blocks4.body.debugShowBody = false;
+    blocks1.body.debugShowVelocity = false;
+    blocks2.body.debugShowVelocity = false;
+    blocks3.body.debugShowVelocity = false;
+    blocks4.body.debugShowVelocity = false;
+    
     point = this.physics.add.image(xrandom,yrandom,'cursor').setScale(.07);
     points = this.add.text(10,10, 'Points: 0',{fontSize: '20px',fill: 'white'});
+    point.body.debugShowBody = false;
     cursor.setVisible(false);
    this.input.on('pointermove', function (pointer)
    {
@@ -72,6 +82,10 @@ function update ()
         blocks2.setActive(false).setVisible(false);
         blocks1 = this.physics.add.image(0,0,'block').setScale(.07);
         blocks2 = this.physics.add.image(0,800,'block').setScale(.07);
+        blocks1.body.debugShowBody = false;
+        blocks2.body.debugShowBody = false;
+        blocks1.body.debugShowVelocity = false;
+        blocks2.body.debugShowVelocity = false;
 
         this.input.on('pointermove', function (pointer)
         {
@@ -91,6 +105,10 @@ function update ()
         blocks3.setActive(false).setVisible(false);
         blocks2 = this.physics.add.image(0,800,'block').setScale(.07);
         blocks3 = this.physics.add.image(600,0,'block').setScale(.07);
+        blocks2.body.debugShowBody = false;
+        blocks3.body.debugShowBody = false;
+        blocks2.body.debugShowVelocity = false;
+        blocks3.body.debugShowVelocity = false;
 
         this.input.on('pointermove', function (pointer)
         {
@@ -111,6 +129,10 @@ function update ()
         blocks4.setActive(false).setVisible(false);
         blocks4 = this.physics.add.image(600,800,'block').setScale(.07);
         blocks3 = this.physics.add.image(600,0,'block').setScale(.07);
+        blocks4.body.debugShowBody = false;
+        blocks3.body.debugShowBody = false;
+        blocks3.body.debugShowVelocity = false;
+        blocks4.body.debugShowVelocity = false;
 
         this.input.on('pointermove', function (pointer)
         {
@@ -131,6 +153,10 @@ function update ()
         blocks4.setActive(false).setVisible(false);
         blocks1 = this.physics.add.image(0,0,'block').setScale(.07);
         blocks4 = this.physics.add.image(600,800,'block').setScale(.07);
+        blocks1.body.debugShowBody = false;
+        blocks4.body.debugShowBody = false;
+        blocks1.body.debugShowVelocity = false;
+        blocks4.body.debugShowVelocity = false;
 
         this.input.on('pointermove', function (pointer)
         {
@@ -204,6 +230,8 @@ function update ()
         var yrandom = Phaser.Math.Between(10,590);
         point = this.physics.add.image(xrandom,yrandom,'cursor').setScale(.07);
         pointsnumber = pointsnumber +10;
+        point.body.debugShowBody = false;
+
         if((pointsnumber % 50) === 0 && pointsnumber != 0)
         {
             fakenews.play({volume: 1, loop: false});
