@@ -26,14 +26,18 @@ var healthText;
 var scoreText;
 var rock1;
 var rock2;
+var target;
+var hit;
 function preload ()
 {
     this.physics.world.setBounds(0,0,1440,400);
     this.load.image('background','assets/background.png');//https://i.stack.imgur.com/WYuA2.jpg
     this.load.image('jumper','assets/images.png');
-    this.load.image('jumper2','assets/jumper2.png');
+    this.load.image('jumper2','assets/jumper2.png');//https://img.favpng.com/11/13/5/asteroid-icon-png-favpng-UXJ6DtjWqEmmH162NiEfBJWLG.jpg
     this.load.image('laser', 'assets/laser.png');//https://ya-webdesign.com/images250_/laser-sprite-png-6.png
-    this.load.image('cockpit','assets/cockpit.png');
+    this.load.image('cockpit','assets/cockpit.png');//https://img.swcombine.com/ships/27/cockpit.gif
+    this.load.image('gameover','assets/gameover.png');//https://cdn.weasyl.com/~tokoyami/submissions/1624479/59e26bb8a08663384cc409703949a1baf09de06cfddd4601c5bf96ae2222d1c8/tokoyami-game-over-transparent-f2u.png
+    this.load.image('hit','assets/hit.png');//https://www.fellowshipbbc.org/wp-content/uploads/2013/05/Semitransparent-red-background-80-percent-opacity.png
 }
 function create ()
 {
@@ -47,11 +51,17 @@ function create ()
     target.setVisible(false);
     cockpit = this.add.sprite(target.x,300,'cockpit');
     cockpit.setDepth(1);
-
+    gameover = this.add.sprite(target.x-320,target.y-200,'gameover').setScale(.5);
+    gameover.setOrigin(0,0);
+    gameover.setDepth(3);
+    gameover.setVisible(false);
     healthText = this.add.text(target.x-50,100,'Health: ' + health, {fontSize: '16px', fill: 'white'});
     healthText.setDepth(2);
     scoreText = this.add.text(target.x-50,116,'Score: ' + score, {fontSize: '16px', fill: 'white'});
     scoreText.setDepth(2);
+    hit = this.add.image(target.x,300,'hit').setScale(10);
+    hit.setDepth(3);
+    hit.setVisible(false);
     
     rocks = this.add.group();
     bullets = this.add.group();
@@ -75,6 +85,7 @@ function update ()
         cockpit.x = target.x;
         healthText.x = healthText.x - 10;
         scoreText.x = scoreText.x - 10;
+        gameover.x = gameover.x - 10;
     }
 
     if(cursor.right.isDown)
@@ -83,6 +94,7 @@ function update ()
         cockpit.x = target.x;
         healthText.x = healthText.x + 10;
         scoreText.x = scoreText.x + 10;
+        gameover.x = gameover.x + 10;
     }
 
     if(target.x < 0)
@@ -90,7 +102,7 @@ function update ()
         target.x = 1440;
         healthText.x = target.x-50;
         scoreText.x = target.x-50;
-
+        gameover.x = target.x-320;
         
     }
     if(target.x > 1440)
@@ -98,63 +110,85 @@ function update ()
         target.x = 0;
         healthText.x = target.x-50;
         scoreText.x = target.x-50;
+        gameover.x = target.x-320;
     }
 
     
 }
 function createRock ()
 {
-    var xpos = Phaser.Math.Between(0,1440);
-    var scale = .01;
-    var close = 0;
-    var rock = this.physics.add.image(xpos,300,'jumper2').setScale(scale);
-    var rock1 = this.physics.add.image(xpos-1440,300,'jumper2').setScale(scale);
-    var rock2 = this.physics.add.image(xpos + 1440,300,'jumper2').setScale(scale);
-    
-rock.body.debuShowVelocity = false;
-rock1.body.debuShowVelocity = false;
-rock2.body.debuShowVelocity = false;
-rock.body.debugShowBody = false;
-rock1.body.debugShowBody = false;
-rock2.body.debugShowBody = false;
-
-
-    this.time.addEvent({delay:100,callback: function()
+    if(target.active === true)
     {
+        var xpos = Phaser.Math.Between(0,1440);
+        var scale = .01;
+        var close = 0;
+        var rock = this.physics.add.image(xpos,300,'jumper2').setScale(scale);
+        var rock1 = this.physics.add.image(xpos-1440,300,'jumper2').setScale(scale);
+        var rock2 = this.physics.add.image(xpos + 1440,300,'jumper2').setScale(scale);
+        
+        rock.body.debuShowVelocity = false;
+        rock1.body.debuShowVelocity = false;
+        rock2.body.debuShowVelocity = false;
+        rock.body.debugShowBody = false;
+        rock1.body.debugShowBody = false;
+        rock2.body.debugShowBody = false;
 
-            scale = scale + .005;
-            rock.setScale(scale);
 
-                rock1.setScale(scale);
-                rock2.setScale(scale);
-   
+        this.time.addEvent({delay:100,callback: function()
+        {
 
-            if(rock.active === true)
-            {
-                close = close + 1;
-                if(close === 36)
+                scale = scale + .005;
+                rock.setScale(scale);
+
+                    rock1.setScale(scale);
+                    rock2.setScale(scale);
+    
+
+                if(rock.active === true)
                 {
-                    rock.setActive(false).setVisible(false);
+                    close = close + 1;
+                    if(close === 36)
+                    {
+                        rock.setActive(false).setVisible(false);
 
                         rock1.setActive(false).setVisible(false);
                         rock2.setActive(false).setVisible(false);
-      
-                    health = health - 1;
-                    healthText.setText('Health: '+ health);
+                        hit.setPosition(target.x,300);
+                        hit.setVisible(true);
+                        var alpha = 1;
+                        if(target.active === true)
+                        {
+                            this.time.addEvent({delay:50,callback: function()
+                            {
+                                //hit.setVisible(false);
+                                hit.setAlpha(alpha);
+                                alpha = alpha - .1;
+                            },callbackScope: this,repeat: 10});
+                        }
+                        if(health > 0)
+                            health = health - 1;
+                        
+                        if(health === 0)
+                        {
+                            target.setActive(false);
+                            gameover.setVisible(true);
+
+                        }
+                        healthText.setText('Health: '+ health);
+                    }
                 }
+
+            if(rock.active === false && rock1.active === true && rock2.active === true)
+            {
+                rock2.setActive(false).setVisible(false);
+                rock1.setActive(false).setVisible(false);
             }
+            
+            
+        },callbackScope: this, repeat: 36});
 
-        if(rock.active === false && rock1.active === true && rock2.active === true)
-        {
-            rock2.setActive(false).setVisible(false);
-            rock1.setActive(false).setVisible(false);
-        }
-        
-        
-    },callbackScope: this, repeat: 36});
-
-    rocks.add(rock);
- 
+        rocks.add(rock);
+    }
 }
 function explode (bullet,rock)
 {
@@ -167,7 +201,8 @@ function explode (bullet,rock)
 }
 function shoot()
 {
-
+    if(target.active === true)
+    {
         var bullet = this.physics.add.sprite(target.x,target.y,'laser').setScale(.1);
         bullet.body.debuShowVelocity = false;
         bullet.body.debugShowBody = false;
@@ -178,5 +213,5 @@ function shoot()
             {
                 bullet.destroy();
             },callbackScope:this});
-    
+    }
 }
